@@ -8,6 +8,9 @@ import io.github.acdeasdff.SlimeFrameExtension.Items.Abstracts.AbstractRangedWea
 import io.github.mooy1.infinitylib.common.Scheduler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.versions.Versioned;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedEnchantment;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedPotionEffectType;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -100,9 +103,8 @@ public class BulletListener implements Listener {
         Damage *= mobTypeDamageMultiplier;
         Damage *= (MODAdder[0] + 1);
 
-        if (targetEntity instanceof LivingEntity) {
-            LivingEntity entity1 = (LivingEntity) targetEntity;
-//            logger.log(Level.WARNING, "A");
+        if (targetEntity instanceof LivingEntity entity1) {
+            //            logger.log(Level.WARNING, "A");
             if (entity1.getMetadata("sfe_puncture").size() > 0) {
 
                 long puncture_time = entity1.getMetadata("sfe_puncture_time").get(0).asLong();
@@ -620,7 +622,7 @@ public class BulletListener implements Listener {
         if (EffectString.equals("sfe_radiation")) {
             if (!(entity instanceof Player) && (entity instanceof Mob)) {
                 entity.addPotionEffect(new PotionEffect(
-                        PotionEffectType.INCREASE_DAMAGE,
+                        VersionedPotionEffectType.STRENGTH,
                         240,
                         entity.getMetadata(EffectString + "_level").get(0).asInt() + 1));
                 List<Entity> entities = entity.getNearbyEntities(10, 10, 10);
@@ -645,8 +647,8 @@ public class BulletListener implements Listener {
         if (entity instanceof Mob) {
 //            entity = ((Mob) entity);
 //            logger.log(Level.WARNING, "1");
-            if (((Mob) entity).hasPotionEffect(PotionEffectType.DAMAGE_RESISTANCE)) {
-                realDamageMultiplier /= ((((Mob) entity).getPotionEffect(PotionEffectType.DAMAGE_RESISTANCE).getAmplifier() + 1) * 0.2);
+            if (((Mob) entity).hasPotionEffect(VersionedPotionEffectType.RESISTANCE)) {
+                realDamageMultiplier /= ((((Mob) entity).getPotionEffect(VersionedPotionEffectType.RESISTANCE).getAmplifier() + 1) * 0.2);
             }
             ;
 //            logger.log(Level.WARNING, "2");
@@ -655,7 +657,7 @@ public class BulletListener implements Listener {
                 for (ItemStack itemStack : armors) {
                     armor += getArmorFromArmor(itemStack);
                     armorToughness += getToughnessFromArmor(itemStack);
-                    EPF += itemStack.getEnchantmentLevel(Enchantment.PROTECTION_ENVIRONMENTAL);
+                    EPF += itemStack.getEnchantmentLevel(VersionedEnchantment.PROTECTION);
                 }
                 EPF = Math.min(20, EPF);
 //                logger.log(Level.WARNING, "3");
@@ -917,12 +919,12 @@ public class BulletListener implements Listener {
         IMPACT(2, null, "sfe_impact", 10),
         PUNCTURE(3, PotionEffectType.WEAKNESS, "sfe_puncture", 10),
         HEAT(4, null, "sfe_heat", 10),
-        COLD(5, PotionEffectType.SLOW, "sfe_cold", 10),
+        COLD(5, VersionedPotionEffectType.SLOWNESS, "sfe_cold", 10),
         TOXIN(6, PotionEffectType.POISON, "sfe_toxin", 10),
         ELECTRICITY(7, null, "sfe_electricity", 10),
         BLAST(8, null, "sfe_blast", 10),
         GAS(9, PotionEffectType.POISON, "sfe_gas", 10),
-        RADIATION(10, PotionEffectType.CONFUSION, "sfe_radiation", 10),
+        RADIATION(10, VersionedPotionEffectType.NAUSEA, "sfe_radiation", 10),
         VIRAL(11, null, "sfe_viral", 10),
         MAGNETIC(12, PotionEffectType.ABSORPTION, "sfe_magnetic", 10),
         CORROSIVE(13, null, "sfe_corrosive", 10);

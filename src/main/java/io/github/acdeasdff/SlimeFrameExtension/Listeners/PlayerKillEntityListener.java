@@ -1,5 +1,6 @@
 package io.github.acdeasdff.SlimeFrameExtension.Listeners;
 
+import city.norain.slimefun4.compatibillty.VersionedAttribute;
 import io.github.acdeasdff.SlimeFrameExtension.ItemMetaRelated.Keys;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 import org.bukkit.attribute.Attribute;
@@ -29,12 +30,12 @@ public class PlayerKillEntityListener implements Listener {
                     int endos = PersistentDataAPI.getInt(e.getDamager(), Keys.ENDOS_OWNED, 0);
 
                     if (((LivingEntity) e.getEntity())
-                            .getAttribute(Attribute.GENERIC_MAX_HEALTH)//has health
+                            .getAttribute(VersionedAttribute.getMaxHealth())//has health
                             != null
                     ) {
                         if (((LivingEntity) e.getEntity()).getHealth() <= e.getDamage()) {//dead
                             endos += ((LivingEntity) e.getEntity())
-                                    .getAttribute(Attribute.GENERIC_MAX_HEALTH)
+                                    .getAttribute(VersionedAttribute.getMaxHealth())
                                     .getValue()
                                     + random.nextInt(10);
                             PersistentDataAPI.setInt(e.getDamager(), Keys.ENDOS_OWNED, endos);
@@ -49,12 +50,12 @@ public class PlayerKillEntityListener implements Listener {
                         int endos = PersistentDataAPI.getInt(e.getDamager(), Keys.ENDOS_OWNED, 0);
 
                         if (((LivingEntity) e.getEntity())
-                                .getAttribute(Attribute.GENERIC_MAX_HEALTH)//has health
+                                .getAttribute(VersionedAttribute.getMaxHealth())//has health
                                 != null
                         ) {
                             if (((LivingEntity) e.getEntity()).getHealth() <= e.getDamage()) {//dead
                                 endos += Math.min(((LivingEntity) e.getEntity())
-                                        .getAttribute(Attribute.GENERIC_MAX_HEALTH)
+                                        .getAttribute(VersionedAttribute.getMaxHealth())
                                         .getValue(), 600)
                                         + random.nextInt(10);
                                 PersistentDataAPI.setInt(e.getDamager(), Keys.ENDOS_OWNED, endos);
